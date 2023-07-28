@@ -7,9 +7,6 @@ jobs:
     prettier-lint:
         name: Run prettier and lint on backend
         runs-on: ubuntu-latest
-        defaults:
-            run:
-                working-directory: ./backend
         steps:
             - uses: actions/checkout@v3
             - name: Install packages and run prettier and lint
