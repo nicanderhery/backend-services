@@ -7,9 +7,9 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc",
         "dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
-        "lint": "eslint src/**/*.{ts,json}",
-        "lint:fix": "eslint --fix src/**/*.{ts,json}",
-        "format": "prettier --write src/**/*.{ts,md,json} --config ./.prettierrc"
+        "lint": "eslint . --ext .ts",
+        "lint:fix": "eslint . --ext .ts --fix",
+        "format": "prettier --write *.{ts,md,json} --config ./.prettierrc"
     },
     "keywords": [
         "backend",
