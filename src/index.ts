@@ -3,6 +3,7 @@ import fs from 'fs';
 
 const app = express();
 const PORT = 3000;
+export const SM = new Map<string, string>();
 
 // Browser names in the user-agent header
 const browsers = ['Mozilla', 'Chrome', 'Safari', 'Opera', 'Firefox', 'Edge'];
@@ -35,7 +36,7 @@ app.get('/', (req, res) => {
     // Send a list of all the routes and whether they are available or not
     if (isFromBrowser) {
         // In HTML format
-        return res.send(
+        return res.status(200).send(
             `<h1>Available routes:</h1><ul>${filteredFolders
                 .map((folder: string) => {
                     const color = app._router.stack.some((layer: { regexp: RegExp }) =>
@@ -50,7 +51,7 @@ app.get('/', (req, res) => {
         );
     }
 
-    return res.send(
+    return res.status(200).send(
         filteredFolders.map((folder: string) => {
             return {
                 route: `/${folder}`,
