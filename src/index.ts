@@ -22,6 +22,13 @@ filteredFolders.forEach(async (folder: string) => {
     } catch (error) {
         console.log(`Error loading ${folder} route`);
     }
+
+    // At the last iteration, create 404 route
+    if (filteredFolders.indexOf(folder) === filteredFolders.length - 1) {
+        app.get('*', (_req, res) => {
+            res.status(404).send({ message: '404 Not Found' });
+        });
+    }
 });
 
 app.get('/', (req, res) => {
