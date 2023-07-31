@@ -136,7 +136,7 @@ router.get('/v1/playlist/create', (async (_req, res) => {
     res.status(200).send(playlist);
 }) as RequestHandler);
 
-router.post('/playlist/insert/:playlistId', (async (req, res) => {
+router.post('/v1/playlist/insert/:playlistId', (async (req, res) => {
     if (!spotifyRefreshToken) {
         return res.status(500).send({ message: 'No refresh token found' });
     }
@@ -167,7 +167,7 @@ router.post('/playlist/insert/:playlistId', (async (req, res) => {
     res.status(response.status).send(response.statusText);
 }) as RequestHandler);
 
-router.post('/playlist/remove/:playlistId', (async (req, res) => {
+router.post('/v1/playlist/remove/:playlistId', (async (req, res) => {
     if (!spotifyRefreshToken) {
         return res.status(500).send({ message: 'No refresh token found' });
     }
