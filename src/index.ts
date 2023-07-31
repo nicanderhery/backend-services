@@ -12,6 +12,9 @@ export const SM = new Map<string, string>();
 SM.set('baseUrl', baseUrl);
 SM.set('apiRoute', apiRoute);
 
+// Setting up the middleware
+app.use(express.json());
+
 // Get all folder's names in the src folder
 const folders = fs.readdirSync(__dirname + '/');
 // Filter . and from the array
