@@ -2,7 +2,6 @@
     "compilerOptions": {
         "target": "ESNext" /* Target version of ECMAScript */,
         "module": "commonjs" /* Output module format */,
-        "lib": ["ESNext"] /* List of library files to include */,
 
         /* Strict type-checking options */
         "strict": true,
@@ -26,7 +25,19 @@
 
         /* Allow importing modules with .ts and .tsx extensions */
         "allowSyntheticDefaultImports": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+
+        /* More */
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "experimentalDecorators": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "removeComments": true,
+        "typeRoots": ["node_modules/@types"],
+        "sourceMap": false,
+        "baseUrl": "./"
     },
     "include": ["src/**/*.ts" /* Include TypeScript source files from the 'src' folder */],
     /* Exclude node_modules and build output from being compiled */
