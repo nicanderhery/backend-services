@@ -29,3 +29,4 @@ dist-ssr
 !.env.project
 !.env.vault
 /certbot
+refresh_token
