@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# More
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
+/certbot
+refresh_token
