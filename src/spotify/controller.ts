@@ -43,8 +43,8 @@ if (!apiRoute) {
 const router = Router({ mergeParams: true });
 
 // Redirect to the latest version
-router.get('/', (_req, res) => {
-    res.redirect(`/${apiRoute}/spotify/v1`);
+router.get('/', (req, res) => {
+    res.redirect(req.baseUrl + '/v1');
 });
 
 router.get('/v1', (_req, res) => {

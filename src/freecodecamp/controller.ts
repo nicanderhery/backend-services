@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { SM } from '..';
 import { getUTCDate, getUnixDate, isUnixDate, isValidDate } from './timestamp/timestamp';
+import { getUserInfo } from './whoami/whoami';
 
 const apiRoute = SM.get('apiRoute');
 if (!apiRoute) {
@@ -10,16 +11,16 @@ if (!apiRoute) {
 const router = Router({ mergeParams: true });
 
 // Redirect to the latest version
-router.get('/', (_req, res) => {
-    res.redirect(_req.baseUrl + '/v1');
+router.get('/', (req, res) => {
+    res.redirect(req.baseUrl + '/v1');
 });
 
 router.get('/v1', (_req, res) => {
     res.status(200).send({ message: 'API v1' });
 });
 
-router.get(`/v1/timestamp/${apiRoute}/:date?`, (_req, res) => {
-    const date = _req.params.date;
+router.get(`/v1/timestamp/${apiRoute}/:date?`, (req, res) => {
+    const date = req.params.date;
     if (!date) {
         const unix = getUnixDate(new Date().toUTCString());
         const utc = getUTCDate(new Date().toUTCString());
@@ -36,6 +37,10 @@ router.get(`/v1/timestamp/${apiRoute}/:date?`, (_req, res) => {
     const unix = isUnix ? Number(date) : getUnixDate(date);
     const utc = isUtc ? getUTCDate(date) : getUTCDate(unix);
     res.status(200).send({ unix: unix, utc: utc });
+});
+
+router.get(`/v1/redirect-parser/${apiRoute}/whoami`, (req, res) => {
+    return res.status(200).send(getUserInfo(req));
 });
 
 export default router;
