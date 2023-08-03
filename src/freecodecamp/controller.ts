@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { SM } from '..';
 import { getUTCDate, getUnixDate, isUnixDate, isValidDate } from './timestamp/timestamp';
+import { addShortcut, getOriginalUrl } from './url-shortener/url-shortener';
 import { getUserInfo } from './whoami/whoami';
 
 const apiRoute = SM.get('apiRoute');
@@ -41,6 +42,35 @@ router.get(`/v1/timestamp/${apiRoute}/:date?`, (req, res) => {
 
 router.get(`/v1/request-parser/${apiRoute}/whoami`, (req, res) => {
     return res.status(200).send(getUserInfo(req));
+});
+
+router.get(`/v1/url-shortener/${apiRoute}/shorturl/:url`, (req, res) => {
+    const url = req.params.url;
+    if (!url) {
+        return res.status(400).send({ error: 'Invalid URL' });
+    }
+
+    const shortcut = getOriginalUrl(url);
+    if (!shortcut) {
+        return res.status(200).send({ error: 'Shortcut for this hashed URL not found' });
+    }
+
+    res.redirect(shortcut);
+});
+
+router.post(`/v1/url-shortener/${apiRoute}/shorturl`, async (req, res) => {
+    const url = req.body.url;
+    if (!url) {
+        return res.status(200).send({ error: 'Invalid URL' });
+    }
+    console.log(url);
+
+    const short_url = await addShortcut(url);
+    if (!short_url) {
+        return res.status(200).send({ error: 'Invalid URL' });
+    }
+
+    res.status(200).send(short_url);
 });
 
 export default router;
