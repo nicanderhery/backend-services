@@ -27,7 +27,7 @@ const loadTokenFromFile = (): string | undefined => {
     }
 };
 
-const spotifyRefreshToken = loadTokenFromFile();
+let spotifyRefreshToken = loadTokenFromFile();
 spotifyRefreshToken ? console.log('Loaded refresh token') : console.log('No refresh token found');
 
 const baseUrl = SM.get('baseUrl');
@@ -261,7 +261,7 @@ router.get('/v1/auth/callback', (async (req, res) => {
         refresh_token: string;
     };
     const refreshToken = data.refresh_token;
-    SM.set('spotifyRefreshToken', refreshToken);
+    spotifyRefreshToken = refreshToken;
     fs.writeFileSync('./refresh_token', refreshToken, 'utf-8');
     res.status(200).send({ message: 'Successfully got a refresh token' });
 }) as RequestHandler);
