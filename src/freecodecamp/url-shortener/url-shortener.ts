@@ -1,7 +1,7 @@
-const shortcuts = new Map<string, string>();
-
 import crypto from 'crypto';
 import dns from 'dns';
+
+const shortcuts = new Map<string, string>();
 
 const hashString = (str: string) => {
     const hash = crypto.createHash('sha256');
