@@ -1,5 +1,11 @@
 import { Router } from 'express';
+import { SM } from '..';
 import { getUTCDate, getUnixDate, isUnixDate, isValidDate } from './timestamp/timestamp';
+
+const apiRoute = SM.get('apiRoute');
+if (!apiRoute) {
+    throw new Error('No api route found');
+}
 
 const router = Router({ mergeParams: true });
 
@@ -12,23 +18,23 @@ router.get('/v1', (_req, res) => {
     res.status(200).send({ message: 'API v1' });
 });
 
-router.get('/timestamp', (_req, res) => {
-    const unix = getUnixDate(new Date().toUTCString());
-    const utc = getUTCDate(new Date().toUTCString());
-    res.status(200).send({ unix: unix, utc: utc });
-});
-
-router.get('/timestamp/:input', (_req, res) => {
-    const input = _req.params.input;
-    const isUnix = isUnixDate(input);
-    const isUtc = isValidDate(input);
-
-    if (!isUnix && !isUtc) {
-        return res.status(200).send({ error: 'Invalid Date' });
+router.get(`/v1/timestamp/${apiRoute}/:date?`, (_req, res) => {
+    const date = _req.params.date;
+    if (!date) {
+        const unix = getUnixDate(new Date().toUTCString());
+        const utc = getUTCDate(new Date().toUTCString());
+        return res.status(200).send({ unix: unix, utc: utc });
     }
 
-    const unix = isUnix ? Number(input) : getUnixDate(input);
-    const utc = isUtc ? getUTCDate(input) : getUTCDate(unix);
+    const isUnix = isUnixDate(date);
+    const isUtc = isValidDate(date);
+
+    if (!isUnix && !isUtc) {
+        return res.status(400).send({ error: 'Invalid Date' });
+    }
+
+    const unix = isUnix ? Number(date) : getUnixDate(date);
+    const utc = isUtc ? getUTCDate(date) : getUTCDate(unix);
     res.status(200).send({ unix: unix, utc: utc });
 });
 
