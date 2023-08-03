@@ -34,7 +34,7 @@ const router = Router({ mergeParams: true });
 
 // Redirect to the latest version
 router.get('/', (_req, res) => {
-    res.redirect(`${apiRoute}/rmv/v1`);
+    res.redirect(`/${apiRoute}/rmv/v1`);
 });
 
 router.get('/v1', (_req, res) => {

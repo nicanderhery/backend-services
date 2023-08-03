@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 const PORT = 9999;
 const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
-const apiRoute = process.env.API_ROUTE || '/api';
+const apiRoute = process.env.API_ROUTE || 'api';
 export const SM = new Map<string, string>();
 SM.set('baseUrl', baseUrl);
 SM.set('apiRoute', apiRoute);
@@ -24,7 +24,7 @@ const filteredFolders = folders.filter((folder: string) => !folder.includes('.')
 filteredFolders.forEach(async (folder: string) => {
     try {
         const route = await import(`./${folder}/controller.js`);
-        app.use(`${apiRoute}/${folder}`, route.default);
+        app.use(`/${apiRoute}/${folder}`, route.default);
         console.log(`Loaded ${folder} route`);
     } catch (error) {
         console.log(`Error loading ${folder} route`);
@@ -45,18 +45,18 @@ app.get('/', (_req, res) => {
             .map((folder: string) => {
                 const color = inRouter(folder) ? 'green' : 'red';
                 return `<li><span style="color: ${color}; font-size: 3rem;">■ </span>
-                <a href="${apiRoute}/${folder}" style="font-size: 3rem;">${apiRoute}/${folder}</a></li>`;
+                <a href="/${apiRoute}/${folder}" style="font-size: 3rem;">/${apiRoute}/${folder}</a></li>`;
             })
             .join('')}</ul>`,
     );
 });
 
-app.get(apiRoute, (_req, res) => {
+app.get(`/${apiRoute}`, (_req, res) => {
     // Send a list of all the routes and whether they are available or not in JSON format
     res.status(200).send(
         filteredFolders.map((folder: string) => {
             return {
-                route: `${apiRoute}/${folder}`,
+                route: `/${apiRoute}/${folder}`,
                 status: inRouter(folder) ? 'available' : 'not available',
             };
         }),
@@ -74,6 +74,6 @@ app.listen(PORT, () => {
  */
 const inRouter = (route: string) => {
     return app._router.stack.some((layer: { regexp: RegExp }) =>
-        layer.regexp.toString().startsWith(`/^\\${apiRoute}\\/${route}\\/?(?=\\/|$)/i`),
+        layer.regexp.toString().startsWith(`/^\\/${apiRoute}\\/${route}\\/?(?=\\/|$)/i`),
     );
 };

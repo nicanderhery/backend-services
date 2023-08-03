@@ -44,7 +44,7 @@ const router = Router({ mergeParams: true });
 
 // Redirect to the latest version
 router.get('/', (_req, res) => {
-    res.redirect(`${apiRoute}/spotify/v1`);
+    res.redirect(`/${apiRoute}/spotify/v1`);
 });
 
 router.get('/v1', (_req, res) => {
@@ -200,10 +200,10 @@ router.post('/v1/playlist/remove/:playlistId', (async (req, res) => {
 
 router.get('/v1/auth/login', (_req, res) => {
     if (spotifyRefreshToken) {
-        return res.redirect(`${baseUrl}${apiRoute}/spotify/v1/auth/callback`);
+        return res.redirect(`${baseUrl}/${apiRoute}/spotify/v1/auth/callback`);
     }
 
-    const redirectUri = `${baseUrl}${apiRoute}/spotify/v1/auth/callback`;
+    const redirectUri = `${baseUrl}/${apiRoute}/spotify/v1/auth/callback`;
     const state = generateRandomString(16);
 
     // Request authorization from spotify with the following scopes
@@ -235,7 +235,7 @@ router.get('/v1/auth/callback', (async (req, res) => {
     }
 
     // Request a refresh token from spotify
-    const redirectUri = `${baseUrl}${apiRoute}/spotify/v1/auth/callback`;
+    const redirectUri = `${baseUrl}/${apiRoute}/spotify/v1/auth/callback`;
     const refreshUrl = new URL('https://accounts.spotify.com/api/token');
     const refreshOption: RequestInit = {
         method: 'POST',
