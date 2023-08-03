@@ -39,7 +39,7 @@ router.get(`/v1/timestamp/${apiRoute}/:date?`, (req, res) => {
     res.status(200).send({ unix: unix, utc: utc });
 });
 
-router.get(`/v1/redirect-parser/${apiRoute}/whoami`, (req, res) => {
+router.get(`/v1/request-parser/${apiRoute}/whoami`, (req, res) => {
     return res.status(200).send(getUserInfo(req));
 });
 
