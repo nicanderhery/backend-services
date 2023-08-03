@@ -63,7 +63,6 @@ router.post(`/v1/url-shortener/${apiRoute}/shorturl`, async (req, res) => {
     if (!url) {
         return res.status(200).send({ error: 'Invalid URL' });
     }
-    console.log(url);
 
     const short_url = await addShortcut(url);
     if (!short_url) {
