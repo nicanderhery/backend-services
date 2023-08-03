@@ -1,6 +1,8 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import fs from 'fs';
+import helmet from 'helmet';
 
 dotenv.config();
 
@@ -13,6 +15,8 @@ SM.set('baseUrl', baseUrl);
 SM.set('apiRoute', apiRoute);
 
 // Setting up the middleware
+app.use(cors());
+app.use(helmet());
 app.use(express.json());
 
 // Get all folder's names in the src folder
