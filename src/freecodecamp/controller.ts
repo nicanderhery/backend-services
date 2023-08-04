@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import multer from 'multer';
 import { SM } from '..';
 import {
     addExercise,
@@ -8,6 +9,7 @@ import {
     getUsers,
 } from './exercise-tracker/exercise-tracker';
 import { Log } from './exercise-tracker/interfaces/log';
+import { getMetadata } from './file-metadata/file-metadata';
 import { getUTCDate, getUnixDate, isUnixDate, isValidDate } from './timestamp/timestamp';
 import { addShortcut, getOriginalUrl } from './url-shortener/url-shortener';
 import { getUserInfo } from './whoami/whoami';
@@ -16,6 +18,8 @@ const apiRoute = SM.get('apiRoute');
 if (!apiRoute) {
     throw new Error('No api route found');
 }
+
+const upload = multer({ dest: 'dist/freecodecamp/file-metadata/uploads' });
 
 const router = Router({ mergeParams: true });
 
@@ -181,6 +185,29 @@ router.get(`/v1/exercise-tracker/${apiRoute}/users/:_id/logs`, (req, res) => {
         count: logs.count,
         log: logs.logs,
     });
+});
+
+router.get('/v1/file-metadata', (_req, res) => {
+    // Create a simple form to upload a file
+    res.status(200).send(`
+        <form action="/api/v1/file-metadata/${apiRoute}/fileanalyse" method="post" enctype="multipart/form-data">
+            <input type="file" name="upfile" />
+            <input type="submit" value="Upload" />
+        </form>
+    `);
+});
+
+router.post(`/v1/file-metadata/${apiRoute}/fileanalyse`, upload.single('upfile'), (req, res) => {
+    const file = req.file;
+    console.log(file);
+
+    if (!file) {
+        console.log('File is required');
+
+        return res.status(400).send({ error: 'File is required' });
+    }
+
+    res.status(200).send(getMetadata(file));
 });
 
 export default router;
