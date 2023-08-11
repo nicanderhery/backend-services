@@ -6,14 +6,14 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsc",
+        "clean": "tsc --build --clean",
         "dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+        "start": "node ./dist/index.js",
+        "start:background": "pm2 start ./dist/index.js --name discord-music-bot",
+        "production": "npm run clean && npm run build && npm run start:background",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix",
-        "format": "prettier --write . --config ./.prettierrc",
-        "clean": "rm -rf ./dist",
-        "start": "node ./dist/index.js",
-        "start:background": "pm2 start ./dist/index.js --name backend-services",
-        "production": "npm run clean && npm run build && npm run start:background"
+        "format": "prettier --write . --config ./.prettierrc"
     },
     "keywords": [
         "backend",
