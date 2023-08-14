@@ -9,7 +9,7 @@
         "clean": "tsc --build --clean",
         "dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
         "start": "node ./dist/index.js",
-        "start:background": "pm2 start ./dist/index.js --name discord-music-bot",
+        "start:background": "pm2 start ./dist/index.js --name backend-services",
         "production": "npm run clean && npm run build && npm run start:background",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --ext .ts --fix",
