@@ -8,7 +8,7 @@ dotenv.config();
 
 const app = express();
 const PORT = 9999;
-const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+const baseUrl = process.env.SERVER_ADDRESS || `http://localhost:${PORT}`;
 const apiRoute = process.env.API_ROUTE || 'api';
 export const SM = new Map<string, string>();
 SM.set('baseUrl', baseUrl);
